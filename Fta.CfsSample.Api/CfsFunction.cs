@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Http;
 using System.Threading;
 using System.Web.Http;
 using Azure.CfS.Library.Interfaces;
-using Azure.CfS.Library.Models;
 using Azure.CfS.Library.Options;
+using Azure.CfS.Library.Contracts;
 
 namespace Fta.CfsSample.Api
 {

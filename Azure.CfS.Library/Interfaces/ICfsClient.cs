@@ -1,4 +1,5 @@
-﻿using Azure.CfS.Library.Models;
+﻿using Azure.CfS.Library.Contracts;
+using Azure.CfS.Library.Models;
 using Azure.CfS.Library.Options;
 using System.Threading;
 using System.Threading.Tasks;
