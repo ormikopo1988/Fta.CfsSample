@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fta.CfsSample.Api.Interfaces
+namespace Azure.CfS.Library.Interfaces
 {
     public interface ILoggerAdapter<TType>
     {

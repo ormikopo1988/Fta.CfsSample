@@ -1,6 +1,6 @@
-﻿using Fta.CfsSample.Api.Interfaces;
-using Fta.CfsSample.Api.Models;
-using Fta.CfsSample.Api.Options;
+﻿using Azure.CfS.Library.Interfaces;
+using Azure.CfS.Library.Models;
+using Azure.CfS.Library.Options;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Fta.CfsSample.Api.Services
+namespace Azure.CfS.Library.Services
 {
-    public class CfsService : ICfsService
+    public class CfsClient : ICfsClient
     {
         private readonly HttpClient _httpClient;
-        private readonly ILoggerAdapter<CfsService> _logger;
+        private readonly ILoggerAdapter<CfsClient> _logger;
 
-        public CfsService(HttpClient httpClient, ILoggerAdapter<CfsService> logger)
+        public CfsClient(HttpClient httpClient, ILoggerAdapter<CfsClient> logger)
         {
             _httpClient = httpClient;
             _logger = logger;
@@ -43,7 +43,7 @@ namespace Fta.CfsSample.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception in {nameof(CfsService)} -> {nameof(GetEmissionsByEnrollmentAsync)} method.");
+                _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetEmissionsByEnrollmentAsync)} method.");
             }
 
             return new Result<GetEnrollmentEmissionsResponse>
@@ -78,7 +78,7 @@ namespace Fta.CfsSample.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception in {nameof(CfsService)} -> {nameof(GetMetadataAsync)} method.");
+                _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetMetadataAsync)} method.");
             }
 
             return new Result<string>
@@ -115,7 +115,7 @@ namespace Fta.CfsSample.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception in {nameof(CfsService)} -> {nameof(GetProjectionsByEnrollmentAsync)} method.");
+                _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetProjectionsByEnrollmentAsync)} method.");
             }
 
             return new Result<GetEnrollmentProjectionsResponse>
@@ -150,7 +150,7 @@ namespace Fta.CfsSample.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception in {nameof(CfsService)} -> {nameof(GetUsageByEnrollmentAsync)} method.");
+                _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetUsageByEnrollmentAsync)} method.");
             }
 
             return new Result<GetEnrollmentUsagesResponse>

@@ -1,8 +1,8 @@
-﻿using Fta.CfsSample.Api.Interfaces;
+﻿using Azure.CfS.Library.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Fta.CfsSample.Api.Logging
+namespace Azure.CfS.Library.Logging
 {
     public class LoggerAdapter<TType> : ILoggerAdapter<TType>
     {

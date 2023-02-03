@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Fta.CfsSample.Api.Options
+namespace Azure.CfS.Library.Options
 {
     public class CfsApiOptions
     {
@@ -28,7 +28,7 @@ namespace Fta.CfsSample.Api.Options
                     switch (paramKey)
                     {
                         case "apply":
-                            QueryParams.Apply = paramValue;
+                            QueryParams.Apply = paramValue!;
                             break;
                         case "count":
                             if (bool.TryParse(paramValue, out bool countResult))
@@ -37,16 +37,16 @@ namespace Fta.CfsSample.Api.Options
                             }
                             break;
                         case "expand":
-                            QueryParams.Expand = paramValue;
+                            QueryParams.Expand = paramValue!;
                             break;
                         case "filter":
-                            QueryParams.Filter = paramValue;
+                            QueryParams.Filter = paramValue!;
                             break;
                         case "orderby":
-                            QueryParams.OrderBy = paramValue;
+                            QueryParams.OrderBy = paramValue!;
                             break;
                         case "select":
-                            QueryParams.Select = paramValue;
+                            QueryParams.Select = paramValue!;
                             break;
                         case "skip":
                             if (int.TryParse(paramValue, out int skipResult))

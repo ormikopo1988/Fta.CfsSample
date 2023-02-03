@@ -4,22 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
-using Fta.CfsSample.Api.Interfaces;
 using System.Threading;
 using System.Web.Http;
-using Fta.CfsSample.Api.Options;
-using Fta.CfsSample.Api.Models;
+using Azure.CfS.Library.Interfaces;
+using Azure.CfS.Library.Models;
+using Azure.CfS.Library.Options;
 
 namespace Fta.CfsSample.Api
 {
     public class CfsFunction
     {
-        private readonly ICfsService _cfsService;
+        private readonly ICfsClient _cfsClient;
         private readonly ILoggerAdapter<CfsFunction> _logger;
 
-        public CfsFunction(ICfsService cfsService, ILoggerAdapter<CfsFunction> logger)
+        public CfsFunction(ICfsClient cfsClient, ILoggerAdapter<CfsFunction> logger)
         {
-            _cfsService = cfsService;
+            _cfsClient = cfsClient;
             _logger = logger;
         }
         
@@ -34,7 +34,7 @@ namespace Fta.CfsSample.Api
 
             try
             {
-                var emissionsByEnrollment = await _cfsService.GetEmissionsByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
+                var emissionsByEnrollment = await _cfsClient.GetEmissionsByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
 
                 if (emissionsByEnrollment.Error is not null)
                 {
@@ -62,7 +62,7 @@ namespace Fta.CfsSample.Api
 
             try
             {
-                var metadata = await _cfsService.GetMetadataAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
+                var metadata = await _cfsClient.GetMetadataAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
 
                 if (metadata.Error is not null)
                 {
@@ -90,7 +90,7 @@ namespace Fta.CfsSample.Api
 
             try
             {
-                var projectionsByEnrollment = await _cfsService.GetProjectionsByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
+                var projectionsByEnrollment = await _cfsClient.GetProjectionsByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
 
                 if (projectionsByEnrollment.Error is not null)
                 {
@@ -118,7 +118,7 @@ namespace Fta.CfsSample.Api
 
             try
             {
-                var usageByEnrollment = await _cfsService.GetUsageByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
+                var usageByEnrollment = await _cfsClient.GetUsageByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
 
                 if (usageByEnrollment.Error is not null)
                 {

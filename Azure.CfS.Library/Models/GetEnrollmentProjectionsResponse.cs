@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Fta.CfsSample.Api.Models
+namespace Azure.CfS.Library.Models
 {
     public class GetEnrollmentProjectionsResponse
     {

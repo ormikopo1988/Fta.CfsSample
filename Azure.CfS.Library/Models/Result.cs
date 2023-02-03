@@ -1,4 +1,4 @@
-﻿namespace Fta.CfsSample.Api.Models
+﻿namespace Azure.CfS.Library.Models
 {
     public class Result<T> where T : class
     {
