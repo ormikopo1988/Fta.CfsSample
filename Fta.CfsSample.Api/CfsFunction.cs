@@ -9,6 +9,7 @@ using System.Web.Http;
 using Azure.CfS.Library.Interfaces;
 using Azure.CfS.Library.Options;
 using Azure.CfS.Library.Contracts;
+using Fta.CfsSample.Api.Services;
 
 namespace Fta.CfsSample.Api
 {
@@ -41,6 +42,16 @@ namespace Fta.CfsSample.Api
                     return new BadRequestObjectResult(emissionsByEnrollment.Error.Message);
                 }
 
+                if (req.Query["format"] == "csv")
+                {
+                    var (stream, contentType, fileName) = await new CsvService<EnrollmentEmission>().GetCsvAsync(emissionsByEnrollment.Data.EnrollmentEmissions, 100);
+
+                    return new FileStreamResult(stream, contentType)
+                    {
+                        FileDownloadName = fileName
+                    };
+                }
+
                 return new OkObjectResult(emissionsByEnrollment.Data);
             }
             catch (Exception ex)
@@ -68,7 +79,7 @@ namespace Fta.CfsSample.Api
                 {
                     return new BadRequestObjectResult(metadata.Error.Message);
                 }
-
+                
                 return new OkObjectResult(metadata.Data);
             }
             catch (Exception ex)
@@ -97,6 +108,16 @@ namespace Fta.CfsSample.Api
                     return new BadRequestObjectResult(projectionsByEnrollment.Error.Message);
                 }
 
+                if (req.Query["format"] == "csv")
+                {
+                    var (stream, contentType, fileName) = await new CsvService<EnrollmentProjection>().GetCsvAsync(projectionsByEnrollment.Data.EnrollmentProjections, 100);
+
+                    return new FileStreamResult(stream, contentType)
+                    {
+                        FileDownloadName = fileName
+                    };
+                }
+
                 return new OkObjectResult(projectionsByEnrollment.Data);
             }
             catch (Exception ex)
@@ -123,6 +144,16 @@ namespace Fta.CfsSample.Api
                 if (usageByEnrollment.Error is not null)
                 {
                     return new BadRequestObjectResult(usageByEnrollment.Error.Message);
+                }
+
+                if (req.Query["format"] == "csv")
+                {
+                    var (stream, contentType, fileName) = await new CsvService<EnrollmentUsage>().GetCsvAsync(usageByEnrollment.Data.EnrollmentUsage, 100);
+
+                    return new FileStreamResult(stream, contentType)
+                    {
+                        FileDownloadName = fileName
+                    };
                 }
 
                 return new OkObjectResult(usageByEnrollment.Data);
