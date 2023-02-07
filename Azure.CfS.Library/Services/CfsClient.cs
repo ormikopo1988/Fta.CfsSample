@@ -47,14 +47,7 @@ namespace Azure.CfS.Library.Services
                 _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetEmissionsByEnrollmentAsync)} method.");
             }
 
-            return new Result<GetEnrollmentEmissionsResponse>
-            {
-                Error = new Error
-                {
-                    Code = 999,
-                    Message = "Unable to fetch emissions for enrollment."
-                }
-            };
+            return GenerateErrorResult<GetEnrollmentEmissionsResponse>(999, "Unable to fetch emissions for enrollment.");
         }
 
         public async Task<Result<string>> GetMetadataAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
@@ -82,14 +75,7 @@ namespace Azure.CfS.Library.Services
                 _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetMetadataAsync)} method.");
             }
 
-            return new Result<string>
-            {
-                Error = new Error
-                {
-                    Code = 999,
-                    Message = "Unable to fetch metadata."
-                }
-            };
+            return GenerateErrorResult<string>(999, "Unable to fetch metadata.");
         }
 
         public async Task<Result<GetEnrollmentProjectionsResponse>> GetProjectionsByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
@@ -104,8 +90,6 @@ namespace Azure.CfS.Library.Services
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
-                    var tmp = await httpResponseMessage.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
-                    
                     return new Result<GetEnrollmentProjectionsResponse>
                     {
                         Data = (await httpResponseMessage.Content.ReadFromJsonAsync<GetEnrollmentProjectionsResponse>(cancellationToken: ct).ConfigureAwait(false))!
@@ -119,14 +103,7 @@ namespace Azure.CfS.Library.Services
                 _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetProjectionsByEnrollmentAsync)} method.");
             }
 
-            return new Result<GetEnrollmentProjectionsResponse>
-            {
-                Error = new Error
-                {
-                    Code = 999,
-                    Message = "Unable to fetch projections for enrollment."
-                }
-            };
+            return GenerateErrorResult<GetEnrollmentProjectionsResponse>(999, "Unable to fetch projections for enrollment.");
         }
 
         public async Task<Result<GetEnrollmentUsagesResponse>> GetUsageByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
@@ -154,14 +131,7 @@ namespace Azure.CfS.Library.Services
                 _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetUsageByEnrollmentAsync)} method.");
             }
 
-            return new Result<GetEnrollmentUsagesResponse>
-            {
-                Error = new Error
-                {
-                    Code = 999,
-                    Message = "Unable to fetch usage for enrollment."
-                }
-            };
+            return GenerateErrorResult<GetEnrollmentUsagesResponse>(999, "Unable to fetch usage for enrollment.");
         }
 
         private static void ValidateCfsApiOptions(CfsApiOptions cfsApiOptions)
@@ -228,6 +198,19 @@ namespace Azure.CfS.Library.Services
             }
 
             return result.ToString().TrimEnd('&');
+        }
+
+        private static Result<T> GenerateErrorResult<T>(int errorCode, string errorMessage)
+            where T : class
+        {
+            return new Result<T>
+            {
+                Error = new Error
+                {
+                    Code = errorCode,
+                    Message = errorMessage
+                }
+            };
         }
 
         private async Task LogErrorMessageAsync(HttpResponseMessage httpResponseMessage, CancellationToken ct)
