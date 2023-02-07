@@ -13,21 +13,18 @@ namespace Azure.CfS.Library.Services
     public class CfsAuthorizationClientDecorator : ICfsClient
     {
         private readonly ICfsClient _innerCfsClient;
-        private readonly IOptions<AuthorizationClientOptions> _authorizationClientOptions;
         private readonly IOptions<CfsLibraryOptions> _cfsLibraryOptions;
         private readonly IConfidentialClientApplication _confidentialClientApplication;
         private readonly ITokenCacheService _tokenCacheService;
         private readonly ILoggerAdapter<CfsAuthorizationClientDecorator> _logger;
 
-        public CfsAuthorizationClientDecorator(ICfsClient innerCfsClient, 
-            IOptions<AuthorizationClientOptions> authorizationClientOptions,
+        public CfsAuthorizationClientDecorator(ICfsClient innerCfsClient,
             IOptions<CfsLibraryOptions> cfsLibraryOptions,
             IConfidentialClientApplication confidentialClientApplication, 
             ITokenCacheService tokenCacheService, 
             ILoggerAdapter<CfsAuthorizationClientDecorator> logger)
         {
             _innerCfsClient = innerCfsClient;
-            _authorizationClientOptions = authorizationClientOptions;
             _cfsLibraryOptions = cfsLibraryOptions;
             _confidentialClientApplication = confidentialClientApplication;
             _tokenCacheService = tokenCacheService;
@@ -87,7 +84,7 @@ namespace Azure.CfS.Library.Services
 
             try
             {
-                result = await _confidentialClientApplication.AcquireTokenForClient(_authorizationClientOptions.Value.ResourceIds).ExecuteAsync(ct).ConfigureAwait(false);
+                result = await _confidentialClientApplication.AcquireTokenForClient(new string[] { _cfsLibraryOptions.Value.CfsApiScope }).ExecuteAsync(ct).ConfigureAwait(false);
             }
             catch (MsalUiRequiredException ex)
             {

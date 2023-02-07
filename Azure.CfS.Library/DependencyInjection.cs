@@ -40,11 +40,6 @@ namespace Azure.CfS.Library
 
             services.AddTransient(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
 
-            services.Configure<AuthorizationClientOptions>(aco =>
-            {
-                aco.ResourceIds = new string[] { cfsLibraryOptions.CfsApiScope };
-            });
-
             services.Configure<CfsLibraryOptions>(clo =>
             {
                 clo.AzureAdClientSecret = cfsLibraryOptions.AzureAdClientSecret;
