@@ -50,7 +50,6 @@ namespace Azure.CfS.Library
                 clo.CfsApiVersion = cfsLibraryOptions.CfsApiVersion;
             });
 
-            services.AddDistributedMemoryCache();
             services.AddSingleton<ITokenCacheService, TokenCacheService>();
 
             services.AddSingleton(sp => {
