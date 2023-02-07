@@ -45,6 +45,19 @@ namespace Azure.CfS.Library
                 aco.ResourceIds = new string[] { cfsLibraryOptions.CfsApiScope };
             });
 
+            services.Configure<CfsLibraryOptions>(clo =>
+            {
+                clo.AzureAdClientSecret = cfsLibraryOptions.AzureAdClientSecret;
+                clo.AzureAdClientId = cfsLibraryOptions.AzureAdClientId;
+                clo.AzureAdTenantId = cfsLibraryOptions.AzureAdTenantId;
+                clo.CfsApiPrimaryKey = cfsLibraryOptions.CfsApiPrimaryKey;
+                clo.CfsApiScope = cfsLibraryOptions.CfsApiScope;
+                clo.CfsApiVersion = cfsLibraryOptions.CfsApiVersion;
+            });
+
+            services.AddDistributedMemoryCache();
+            services.AddSingleton<ITokenCacheService, TokenCacheService>();
+
             services.AddSingleton(sp => {
                 var authority = string.Format(CultureInfo.InvariantCulture, Constants.AzureAdInstance, cfsLibraryOptions.AzureAdTenantId);
                 return ConfidentialClientApplicationBuilder.Create(cfsLibraryOptions.AzureAdClientId)
