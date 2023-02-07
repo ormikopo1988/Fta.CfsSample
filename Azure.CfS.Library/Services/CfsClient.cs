@@ -24,9 +24,7 @@ namespace Azure.CfS.Library.Services
         
         public async Task<Result<GetEnrollmentEmissionsResponse>> GetEmissionsByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
         {
-            if (cfsApiOptions == null) throw new ArgumentNullException(nameof(cfsApiOptions));
-
-            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken)) throw new ArgumentNullException(nameof(cfsApiOptions.AccessToken));
+            ValidateCfsApiOptions(cfsApiOptions);
 
             try
             {
@@ -61,10 +59,8 @@ namespace Azure.CfS.Library.Services
 
         public async Task<Result<string>> GetMetadataAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
         {
-            if (cfsApiOptions == null) throw new ArgumentNullException(nameof(cfsApiOptions));
+            ValidateCfsApiOptions(cfsApiOptions);
 
-            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken)) throw new ArgumentNullException(nameof(cfsApiOptions.AccessToken));
-            
             try
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
@@ -98,10 +94,8 @@ namespace Azure.CfS.Library.Services
 
         public async Task<Result<GetEnrollmentProjectionsResponse>> GetProjectionsByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
         {
-            if (cfsApiOptions == null) throw new ArgumentNullException(nameof(cfsApiOptions));
+            ValidateCfsApiOptions(cfsApiOptions);
 
-            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken)) throw new ArgumentNullException(nameof(cfsApiOptions.AccessToken));
-            
             try
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
@@ -137,10 +131,8 @@ namespace Azure.CfS.Library.Services
 
         public async Task<Result<GetEnrollmentUsagesResponse>> GetUsageByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
         {
-            if (cfsApiOptions == null) throw new ArgumentNullException(nameof(cfsApiOptions));
+            ValidateCfsApiOptions(cfsApiOptions);
 
-            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken)) throw new ArgumentNullException(nameof(cfsApiOptions.AccessToken));
-            
             try
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
@@ -170,6 +162,19 @@ namespace Azure.CfS.Library.Services
                     Message = "Unable to fetch usage for enrollment."
                 }
             };
+        }
+
+        private static void ValidateCfsApiOptions(CfsApiOptions cfsApiOptions)
+        {
+            if (cfsApiOptions == null)
+            {
+                throw new ArgumentNullException(nameof(cfsApiOptions));
+            }
+
+            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken))
+            {
+                throw new ArgumentException($"The {nameof(cfsApiOptions.AccessToken)} cannot be null or empty.");
+            }
         }
 
         private static string BuildUrl(CfsApiOptions cfsApiOptions, string operation)
