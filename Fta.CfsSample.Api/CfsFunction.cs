@@ -10,9 +10,6 @@ using Azure.CfS.Library.Interfaces;
 using Azure.CfS.Library.Options;
 using Azure.CfS.Library.Contracts;
 using Fta.CfsSample.Api.Services;
-using Microsoft.Identity.Client;
-using Fta.CfsSample.Api.Settings;
-using System.Globalization;
 
 namespace Fta.CfsSample.Api
 {
@@ -20,19 +17,11 @@ namespace Fta.CfsSample.Api
     {
         private readonly ICfsClient _cfsClient;
         private readonly ILoggerAdapter<CfsFunction> _logger;
-        private readonly CfsApiSettings _cfsApiSettings;
-        private readonly AzureAdSettings _azureAdSettings;
 
-        public CfsFunction(
-            ICfsClient cfsClient,
-            ILoggerAdapter<CfsFunction> logger,
-            CfsApiSettings cfsApiSettings,
-            AzureAdSettings azureAdSettings)
+        public CfsFunction(ICfsClient cfsClient, ILoggerAdapter<CfsFunction> logger)
         {
             _cfsClient = cfsClient;
             _logger = logger;
-            _cfsApiSettings = cfsApiSettings;
-            _azureAdSettings = azureAdSettings;
         }
 
         [FunctionName("GetEmissions")]
@@ -46,9 +35,7 @@ namespace Fta.CfsSample.Api
 
             try
             {
-                var accessToken = await GetAccessTokenAsync(ct);
-                
-                var emissionsByEnrollment = await _cfsClient.GetEmissionsByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, accessToken!, req.Query), ct);
+                var emissionsByEnrollment = await _cfsClient.GetEmissionsByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
 
                 if (emissionsByEnrollment.Error is not null)
                 {
@@ -86,9 +73,7 @@ namespace Fta.CfsSample.Api
 
             try
             {
-                var accessToken = await GetAccessTokenAsync(ct);
-                
-                var metadata = await _cfsClient.GetMetadataAsync(new CfsApiOptions(instanceId, enrollmentId, accessToken!, req.Query), ct);
+                var metadata = await _cfsClient.GetMetadataAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
 
                 if (metadata.Error is not null)
                 {
@@ -116,9 +101,7 @@ namespace Fta.CfsSample.Api
 
             try
             {
-                var accessToken = await GetAccessTokenAsync(ct);
-                
-                var projectionsByEnrollment = await _cfsClient.GetProjectionsByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, accessToken!, req.Query), ct);
+                var projectionsByEnrollment = await _cfsClient.GetProjectionsByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
 
                 if (projectionsByEnrollment.Error is not null)
                 {
@@ -156,9 +139,7 @@ namespace Fta.CfsSample.Api
 
             try
             {
-                var accessToken = await GetAccessTokenAsync(ct);
-                
-                var usageByEnrollment = await _cfsClient.GetUsageByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, accessToken!, req.Query), ct);
+                var usageByEnrollment = await _cfsClient.GetUsageByEnrollmentAsync(new CfsApiOptions(instanceId, enrollmentId, req.Query), ct);
 
                 if (usageByEnrollment.Error is not null)
                 {
@@ -183,36 +164,6 @@ namespace Fta.CfsSample.Api
 
                 return new InternalServerErrorResult();
             }
-        }
-
-        private async Task<string?> GetAccessTokenAsync(CancellationToken ct)
-        {
-            var app = ConfidentialClientApplicationBuilder.Create(_azureAdSettings.ClientId)
-                .WithClientSecret(_azureAdSettings.ClientSecret)
-                .WithAuthority(new Uri(string.Format(CultureInfo.InvariantCulture, _azureAdSettings.Instance, _azureAdSettings.TenantId)))
-                .Build();
-            
-            AuthenticationResult? result = null;
-                
-            try
-            {
-                result = await app.AcquireTokenForClient(new string[] { _cfsApiSettings.Scope }).ExecuteAsync(ct);
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                // The application doesn't have sufficient permissions.
-                // - Did you declare enough app permissions during app creation?
-                // - Did the tenant admin grant permissions to the application?
-                _logger.LogError(ex, $"MsalUiRequiredException in {nameof(CfsFunction)} -> {nameof(GetAccessTokenAsync)} method.");
-            }
-            catch (MsalServiceException ex) when(ex.Message.Contains("AADSTS70011"))
-            {
-                // Invalid scope. The scope has to be in the form "https://resourceurl/.default"
-                // Mitigation: Change the scope to be as expected.
-                _logger.LogError(ex, $"MsalServiceException in {nameof(CfsFunction)} -> {nameof(GetAccessTokenAsync)} method.");
-            }
-
-            return result?.AccessToken;
         }
     }
 }

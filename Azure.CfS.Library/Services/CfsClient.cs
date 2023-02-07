@@ -24,24 +24,25 @@ namespace Azure.CfS.Library.Services
         
         public async Task<Result<GetEnrollmentEmissionsResponse>> GetEmissionsByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
         {
-            GetEnrollmentEmissionsResponse? enrollmentEmissionsResponse = null;
-            
+            if (cfsApiOptions == null) throw new ArgumentNullException(nameof(cfsApiOptions));
+
+            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken)) throw new ArgumentNullException(nameof(cfsApiOptions.AccessToken));
+
             try
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
-                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "emissions"), ct);
-
+                
+                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "emissions"), ct).ConfigureAwait(false);
+                
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
-                    enrollmentEmissionsResponse = await httpResponseMessage.Content.ReadFromJsonAsync<GetEnrollmentEmissionsResponse>(cancellationToken: ct);
-
                     return new Result<GetEnrollmentEmissionsResponse>
                     {
-                        Data = enrollmentEmissionsResponse!
+                        Data = (await httpResponseMessage.Content.ReadFromJsonAsync<GetEnrollmentEmissionsResponse>(cancellationToken: ct).ConfigureAwait(false))!
                     };
                 }
 
-                await LogErrorMessageAsync(httpResponseMessage, ct);
+                await LogErrorMessageAsync(httpResponseMessage, ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -60,24 +61,25 @@ namespace Azure.CfS.Library.Services
 
         public async Task<Result<string>> GetMetadataAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
         {
-            string? metadataResponse = null;
+            if (cfsApiOptions == null) throw new ArgumentNullException(nameof(cfsApiOptions));
 
+            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken)) throw new ArgumentNullException(nameof(cfsApiOptions.AccessToken));
+            
             try
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
-                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "$metadata"), ct);
+                
+                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "$metadata"), ct).ConfigureAwait(false);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
-                    metadataResponse = await httpResponseMessage!.Content.ReadAsStringAsync(ct);
-
                     return new Result<string>
                     {
-                        Data = metadataResponse!
+                        Data = (await httpResponseMessage!.Content.ReadAsStringAsync(ct).ConfigureAwait(false))!
                     };
                 }
 
-                await LogErrorMessageAsync(httpResponseMessage, ct);
+                await LogErrorMessageAsync(httpResponseMessage, ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -96,26 +98,27 @@ namespace Azure.CfS.Library.Services
 
         public async Task<Result<GetEnrollmentProjectionsResponse>> GetProjectionsByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
         {
-            GetEnrollmentProjectionsResponse? enrollmentProjectionsResponse = null;
+            if (cfsApiOptions == null) throw new ArgumentNullException(nameof(cfsApiOptions));
 
+            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken)) throw new ArgumentNullException(nameof(cfsApiOptions.AccessToken));
+            
             try
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
-                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "projections"), ct);
+                
+                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "projections"), ct).ConfigureAwait(false);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
-                    var tmp = await httpResponseMessage.Content.ReadAsStringAsync(ct);
+                    var tmp = await httpResponseMessage.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
                     
-                    enrollmentProjectionsResponse = await httpResponseMessage.Content.ReadFromJsonAsync<GetEnrollmentProjectionsResponse>(cancellationToken: ct);
-
                     return new Result<GetEnrollmentProjectionsResponse>
                     {
-                        Data = enrollmentProjectionsResponse!
+                        Data = (await httpResponseMessage.Content.ReadFromJsonAsync<GetEnrollmentProjectionsResponse>(cancellationToken: ct).ConfigureAwait(false))!
                     };
                 }
 
-                await LogErrorMessageAsync(httpResponseMessage, ct);
+                await LogErrorMessageAsync(httpResponseMessage, ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -134,24 +137,25 @@ namespace Azure.CfS.Library.Services
 
         public async Task<Result<GetEnrollmentUsagesResponse>> GetUsageByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
         {
-            GetEnrollmentUsagesResponse? enrollmentUsagesResponse = null;
+            if (cfsApiOptions == null) throw new ArgumentNullException(nameof(cfsApiOptions));
 
+            if (string.IsNullOrEmpty(cfsApiOptions.AccessToken)) throw new ArgumentNullException(nameof(cfsApiOptions.AccessToken));
+            
             try
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
-                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "usage"), ct);
+                
+                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "usage"), ct).ConfigureAwait(false);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
-                    enrollmentUsagesResponse = await httpResponseMessage.Content.ReadFromJsonAsync<GetEnrollmentUsagesResponse>(cancellationToken: ct);
-
                     return new Result<GetEnrollmentUsagesResponse>
                     {
-                        Data = enrollmentUsagesResponse!
+                        Data = (await httpResponseMessage.Content.ReadFromJsonAsync<GetEnrollmentUsagesResponse>(cancellationToken: ct).ConfigureAwait(false))!
                     };
                 }
 
-                await LogErrorMessageAsync(httpResponseMessage, ct);
+                await LogErrorMessageAsync(httpResponseMessage, ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -215,9 +219,10 @@ namespace Azure.CfS.Library.Services
                 {
                     result.Append($"$top={cfsApiOptions.QueryParams.Top}");
                 }
+                
             }
 
-            return result.ToString();
+            return result.ToString().TrimEnd('&');
         }
 
         private async Task LogErrorMessageAsync(HttpResponseMessage httpResponseMessage, CancellationToken ct)

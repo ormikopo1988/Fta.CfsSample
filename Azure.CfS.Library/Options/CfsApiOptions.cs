@@ -9,14 +9,23 @@ namespace Azure.CfS.Library.Options
     {
         public Guid InstanceId { get; set; }
         public string EnrollmentId { get; set; } = default!;
-        public string AccessToken { get; set; } = default!;
+        public string? AccessToken { get; set; } = default!;
         public QueryParams QueryParams { get; set; } = default!;
 
-        public CfsApiOptions(Guid instanceId, string enrollmentId, string accessToken, IEnumerable<KeyValuePair<string, StringValues>>? queryParams)
+        public CfsApiOptions(Guid instanceId, string enrollmentId, IEnumerable<KeyValuePair<string, StringValues>>? queryParams)
         {
+            if (instanceId == Guid.Empty)
+            {
+                throw new ArgumentException($"The {nameof(instanceId)} cannot be empty.");
+            }
+
+            if (string.IsNullOrEmpty(enrollmentId))
+            {
+                throw new ArgumentException($"The {nameof(enrollmentId)} cannot be null or empty.");
+            }
+
             InstanceId = instanceId;
             EnrollmentId = enrollmentId;
-            AccessToken = accessToken;
 
             if (queryParams is not null && queryParams.Any())
             {
