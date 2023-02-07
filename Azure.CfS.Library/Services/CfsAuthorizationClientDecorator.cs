@@ -83,7 +83,7 @@ namespace Azure.CfS.Library.Services
                 // - Did the tenant admin grant permissions to the application?
                 _logger.LogError(ex, $"{nameof(MsalUiRequiredException)} in {nameof(CfsAuthorizationClientDecorator)} -> {nameof(GetClientCredentialsTokenAsync)} method.");
             }
-            catch (MsalServiceException ex) when (ex.Message.Contains("AADSTS70011"))
+            catch (MsalServiceException ex) when (ex.Message.Contains(Constants.InvalidScopeErrorCode))
             {
                 // Invalid scope. The scope has to be in the form "https://resourceurl/.default"
                 // Mitigation: Change the scope to be as expected.

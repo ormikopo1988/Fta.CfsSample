@@ -46,7 +46,7 @@ namespace Azure.CfS.Library
             });
 
             services.AddSingleton(sp => {
-                var authority = string.Format(CultureInfo.InvariantCulture, "https://login.microsoftonline.com/{0}", cfsLibraryOptions.AzureAdTenantId);
+                var authority = string.Format(CultureInfo.InvariantCulture, Constants.AzureAdInstance, cfsLibraryOptions.AzureAdTenantId);
                 return ConfidentialClientApplicationBuilder.Create(cfsLibraryOptions.AzureAdClientId)
                     .WithClientSecret(cfsLibraryOptions.AzureAdClientSecret)
                     .WithAuthority(new Uri(authority))
@@ -56,8 +56,8 @@ namespace Azure.CfS.Library
             services
                 .AddHttpClient<ICfsClient, CfsClient>(client =>
                 {
-                    client.BaseAddress = new Uri($"https://api.mcfs.microsoft.com/api/{cfsLibraryOptions.CfsApiVersion}/");
-                    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", cfsLibraryOptions.CfsApiPrimaryKey);
+                    client.BaseAddress = new Uri($"{Constants.CfsApiBaseUrl}/{cfsLibraryOptions.CfsApiVersion}/");
+                    client.DefaultRequestHeaders.Add(Constants.OcpApimSubscriptionKeyHeaderName, cfsLibraryOptions.CfsApiPrimaryKey);
                 });
             
             services.Decorate<ICfsClient, CfsAuthorizationClientDecorator>();

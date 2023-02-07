@@ -28,9 +28,9 @@ namespace Azure.CfS.Library.Services
 
             try
             {
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
+                _httpClient.DefaultRequestHeaders.Add(Constants.AuthorizationHeaderName, $"Bearer {cfsApiOptions.AccessToken}");
                 
-                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "emissions"), ct).ConfigureAwait(false);
+                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, Constants.CfsOperations.EmissionsByEnrollment), ct).ConfigureAwait(false);
                 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
@@ -47,7 +47,7 @@ namespace Azure.CfS.Library.Services
                 _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetEmissionsByEnrollmentAsync)} method.");
             }
 
-            return GenerateErrorResult<GetEnrollmentEmissionsResponse>(999, "Unable to fetch emissions for enrollment.");
+            return GenerateErrorResult<GetEnrollmentEmissionsResponse>(Constants.ErrorCodes.Emissions, "Unable to fetch emissions for enrollment.");
         }
 
         public async Task<Result<string>> GetMetadataAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
@@ -56,9 +56,9 @@ namespace Azure.CfS.Library.Services
 
             try
             {
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
+                _httpClient.DefaultRequestHeaders.Add(Constants.AuthorizationHeaderName, $"Bearer {cfsApiOptions.AccessToken}");
                 
-                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "$metadata"), ct).ConfigureAwait(false);
+                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, Constants.CfsOperations.Metadata), ct).ConfigureAwait(false);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
@@ -75,7 +75,7 @@ namespace Azure.CfS.Library.Services
                 _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetMetadataAsync)} method.");
             }
 
-            return GenerateErrorResult<string>(999, "Unable to fetch metadata.");
+            return GenerateErrorResult<string>(Constants.ErrorCodes.Metadata, "Unable to fetch metadata.");
         }
 
         public async Task<Result<GetEnrollmentProjectionsResponse>> GetProjectionsByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
@@ -84,9 +84,9 @@ namespace Azure.CfS.Library.Services
 
             try
             {
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
+                _httpClient.DefaultRequestHeaders.Add(Constants.AuthorizationHeaderName, $"Bearer {cfsApiOptions.AccessToken}");
                 
-                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "projections"), ct).ConfigureAwait(false);
+                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, Constants.CfsOperations.ProjectionsByEnrollment), ct).ConfigureAwait(false);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
@@ -103,7 +103,7 @@ namespace Azure.CfS.Library.Services
                 _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetProjectionsByEnrollmentAsync)} method.");
             }
 
-            return GenerateErrorResult<GetEnrollmentProjectionsResponse>(999, "Unable to fetch projections for enrollment.");
+            return GenerateErrorResult<GetEnrollmentProjectionsResponse>(Constants.ErrorCodes.Projections, "Unable to fetch projections for enrollment.");
         }
 
         public async Task<Result<GetEnrollmentUsagesResponse>> GetUsageByEnrollmentAsync(CfsApiOptions cfsApiOptions, CancellationToken ct)
@@ -112,9 +112,9 @@ namespace Azure.CfS.Library.Services
 
             try
             {
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
+                _httpClient.DefaultRequestHeaders.Add(Constants.AuthorizationHeaderName, $"Bearer {cfsApiOptions.AccessToken}");
                 
-                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "usage"), ct).ConfigureAwait(false);
+                var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, Constants.CfsOperations.UsageByEnrollment), ct).ConfigureAwait(false);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
@@ -131,7 +131,7 @@ namespace Azure.CfS.Library.Services
                 _logger.LogError(ex, $"Exception in {nameof(CfsClient)} -> {nameof(GetUsageByEnrollmentAsync)} method.");
             }
 
-            return GenerateErrorResult<GetEnrollmentUsagesResponse>(999, "Unable to fetch usage for enrollment.");
+            return GenerateErrorResult<GetEnrollmentUsagesResponse>(Constants.ErrorCodes.Usage, "Unable to fetch usage for enrollment.");
         }
 
         private static void ValidateCfsApiOptions(CfsApiOptions cfsApiOptions)

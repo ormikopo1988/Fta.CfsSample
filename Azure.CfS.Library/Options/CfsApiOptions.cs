@@ -38,34 +38,34 @@ namespace Azure.CfS.Library.Options
 
                     switch (paramKey)
                     {
-                        case "apply":
+                        case Constants.CfsQueryParamNames.Apply:
                             QueryParams.Apply = paramValue!;
                             break;
-                        case "count":
+                        case Constants.CfsQueryParamNames.Count:
                             if (bool.TryParse(paramValue, out bool countResult))
                             {
                                 QueryParams.Count = countResult;
                             }
                             break;
-                        case "expand":
+                        case Constants.CfsQueryParamNames.Expand:
                             QueryParams.Expand = paramValue!;
                             break;
-                        case "filter":
+                        case Constants.CfsQueryParamNames.Filter:
                             QueryParams.Filter = paramValue!;
                             break;
-                        case "orderby":
+                        case Constants.CfsQueryParamNames.OrderBy:
                             QueryParams.OrderBy = paramValue!;
                             break;
-                        case "select":
+                        case Constants.CfsQueryParamNames.Select:
                             QueryParams.Select = paramValue!;
                             break;
-                        case "skip":
+                        case Constants.CfsQueryParamNames.Skip:
                             if (int.TryParse(paramValue, out int skipResult))
                             {
                                 QueryParams.Skip = skipResult;
                             }
                             break;
-                        case "top":
+                        case Constants.CfsQueryParamNames.Top:
                             if (int.TryParse(paramValue, out int topResult))
                             {
                                 QueryParams.Top = topResult;
