@@ -28,6 +28,7 @@ namespace Azure.CfS.Library.Services
             
             try
             {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
                 var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "emissions"), ct);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
@@ -63,6 +64,7 @@ namespace Azure.CfS.Library.Services
 
             try
             {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
                 var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "$metadata"), ct);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
@@ -98,6 +100,7 @@ namespace Azure.CfS.Library.Services
 
             try
             {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
                 var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "projections"), ct);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
@@ -135,6 +138,7 @@ namespace Azure.CfS.Library.Services
 
             try
             {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {cfsApiOptions.AccessToken}");
                 var httpResponseMessage = await _httpClient.GetAsync(BuildUrl(cfsApiOptions, "usage"), ct);
 
                 if (httpResponseMessage.IsSuccessStatusCode)

@@ -9,12 +9,14 @@ namespace Azure.CfS.Library.Options
     {
         public Guid InstanceId { get; set; }
         public string EnrollmentId { get; set; } = default!;
+        public string AccessToken { get; set; } = default!;
         public QueryParams QueryParams { get; set; } = default!;
 
-        public CfsApiOptions(Guid instanceId, string enrollmentId, IEnumerable<KeyValuePair<string, StringValues>>? queryParams)
+        public CfsApiOptions(Guid instanceId, string enrollmentId, string accessToken, IEnumerable<KeyValuePair<string, StringValues>>? queryParams)
         {
             InstanceId = instanceId;
             EnrollmentId = enrollmentId;
+            AccessToken = accessToken;
 
             if (queryParams is not null && queryParams.Any())
             {
