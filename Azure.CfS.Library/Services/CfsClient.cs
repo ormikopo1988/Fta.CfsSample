@@ -194,7 +194,6 @@ namespace Azure.CfS.Library.Services
                 {
                     result.Append($"$top={cfsApiOptions.QueryParams.Top}");
                 }
-                
             }
 
             return result.ToString().TrimEnd('&');
