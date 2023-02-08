@@ -10,15 +10,16 @@ using Azure.CfS.Library.Interfaces;
 using Azure.CfS.Library.Options;
 using Azure.CfS.Library.Contracts;
 using Fta.CfsSample.Api.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Fta.CfsSample.Api
 {
     public class CfsFunction
     {
         private readonly ICfsClient _cfsClient;
-        private readonly ILoggerAdapter<CfsFunction> _logger;
+        private readonly ILogger<CfsFunction> _logger;
 
-        public CfsFunction(ICfsClient cfsClient, ILoggerAdapter<CfsFunction> logger)
+        public CfsFunction(ICfsClient cfsClient, ILogger<CfsFunction> logger)
         {
             _cfsClient = cfsClient;
             _logger = logger;

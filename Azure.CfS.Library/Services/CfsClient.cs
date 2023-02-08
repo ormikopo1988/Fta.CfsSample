@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Azure.CfS.Library.Services
 {
-    public class CfsClient : ICfsClient
+    internal class CfsClient : ICfsClient
     {
         private readonly HttpClient _httpClient;
         private readonly ILoggerAdapter<CfsClient> _logger;

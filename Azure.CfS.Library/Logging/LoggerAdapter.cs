@@ -4,7 +4,7 @@ using System;
 
 namespace Azure.CfS.Library.Logging
 {
-    public class LoggerAdapter<TType> : ILoggerAdapter<TType>
+    internal class LoggerAdapter<TType> : ILoggerAdapter<TType>
     {
         private readonly ILogger<TType> _logger;
 
@@ -26,14 +26,6 @@ namespace Azure.CfS.Library.Logging
             if (_logger.IsEnabled(LogLevel.Error))
             {
                 _logger.LogError(message);
-            }
-        }
-
-        public void LogInformation(string message)
-        {
-            if (_logger.IsEnabled(LogLevel.Information))
-            {
-                _logger.LogInformation(message);
             }
         }
     }

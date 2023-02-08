@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Azure.CfS.Library.Interfaces
 {
-    public interface ITokenCacheService
+    internal interface ITokenCacheService
     {
         Task CacheTokenAsync(string cacheKey, string token, TimeSpan timeToLive);
 

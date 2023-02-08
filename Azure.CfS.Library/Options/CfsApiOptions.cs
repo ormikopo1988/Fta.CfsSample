@@ -10,7 +10,7 @@ namespace Azure.CfS.Library.Options
         public Guid InstanceId { get; set; }
         public string EnrollmentId { get; set; } = default!;
         public string? AccessToken { get; set; } = default!;
-        public QueryParams QueryParams { get; set; } = default!;
+        internal QueryParams QueryParams { get; set; } = default!;
 
         public CfsApiOptions(Guid instanceId, string enrollmentId, IEnumerable<KeyValuePair<string, StringValues>>? queryParams)
         {
@@ -79,15 +79,15 @@ namespace Azure.CfS.Library.Options
         }
     }
 
-    public class QueryParams
+    internal class QueryParams
     {
-        public string Apply { get; set; } = default!;
-        public bool Count { get; set; }
-        public string Expand { get; set; } = default!;
-        public string Filter { get; set; } = default!;
-        public string OrderBy { get; set; } = default!;
-        public string Select { get; set; } = default!;
-        public int Skip { get; set; }
-        public int Top { get; set; }
+        internal string Apply { get; set; } = default!;
+        internal bool Count { get; set; }
+        internal string Expand { get; set; } = default!;
+        internal string Filter { get; set; } = default!;
+        internal string OrderBy { get; set; } = default!;
+        internal string Select { get; set; } = default!;
+        internal int Skip { get; set; }
+        internal int Top { get; set; }
     }
 }

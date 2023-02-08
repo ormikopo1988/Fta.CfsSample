@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Azure.CfS.Library.Services
 {
-    public class CfsAuthorizationClientDecorator : ICfsClient
+    internal class CfsAuthorizationClientDecorator : ICfsClient
     {
         private readonly ICfsClient _innerCfsClient;
         private readonly IOptions<CfsLibraryOptions> _cfsLibraryOptions;
