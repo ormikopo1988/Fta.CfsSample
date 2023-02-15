@@ -5,7 +5,12 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fta.CfsSample.Api", "Fta.CfsSample.Api\Fta.CfsSample.Api.csproj", "{CAAE79D1-2F01-4EAC-AC12-BD66D34FFFD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.CfS.Library", "Azure.CfS.Library\Azure.CfS.Library.csproj", "{8DB9BE28-64BE-478A-8AF7-65F00A36F60B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.CfS.Library", "Azure.CfS.Library\Azure.CfS.Library.csproj", "{8DB9BE28-64BE-478A-8AF7-65F00A36F60B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E14CC8E-7D90-4F38-8738-E0F2212D2254}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

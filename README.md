@@ -121,7 +121,27 @@ you will just have to do the following:
   - **AzureAd:TenantId**: Your Azure AD tenant id, which you signed up to enable the MCfS Preview API
   - **AzureAd:ClientId**: The client id of the service principal (app registration) you registered in your Azure AD tenant (`mcfs-client` in our example)
   - **AzureAd:ClientSecret**: The client secret you created earlier in the process for the service principal (app registration) you registered in your Azure AD tenant (`mcfs-client` in our example)
- 
+
+```
+
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  },
+  "CfsApi": {
+    "PrimaryKey": "<your-cfs-api-primary-key-from-cfs-management-portal>"
+  },
+  "AzureAd": {
+    "TenantId": "<your-azure-ad-tenant-id>",
+    "ClientId": "<your-azure-ad-registered-sp-client-id>",
+    "ClientSecret": "<your-azure-ad-registered-sp-client-secret>"
+  }
+}
+
+```
+
 With those values in place, you are now ready to run the Function App. After doing so, you can see the endpoints that the sample API exposes.
  
 You can now open a tool like Postman and start sending HTTP requests to your Function App. 
