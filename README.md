@@ -35,7 +35,7 @@ The HTTP response will be displayed at the bottom of the pane.
 # Develop a sample API that consumes the MCfS API
 
 In this repo, we examine how you can build a simple HTTP-trigger based Azure Function API that calls the MCfS API using a custom MCfS consumer library. 
-All code samples are written in C# using NET 6 and can be found.
+All code samples are written in C# using NET 6.
 
 The process is pretty much the same as before and you must follow the exact same steps as presented above. 
 Apart from those, a few extra steps are required, to make our sample API code able to successfully call the MCfS API.
