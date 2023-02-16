@@ -32,18 +32,18 @@ To make a live request, select `Try it`. Enter all required fields:
 Add all necessary query parameters. Scroll to the bottom of the side pane and select `Send`. 
 The HTTP response will be displayed at the bottom of the pane.
 
-# Develop a sample API that consumes the MCfS API
+# Develop a sample client that consumes the MCfS API
 
-In this repo, we examine how you can build a simple HTTP-trigger based Azure Function API that calls the MCfS API using a custom MCfS consumer library. 
+In this repo, we examine how you can build a simple HTTP-trigger based Azure Function App that calls the MCfS API using a custom MCfS consumer library. 
 All code samples are written in C# using NET 6.
 
 The process is pretty much the same as before and you must follow the exact same steps as presented above. 
-Apart from those, a few extra steps are required, to make our sample API code able to successfully call the MCfS API.
+Apart from those, a few extra steps are required, to make our sample code able to successfully consume the MCfS API.
 
 First, you must have sufficient permission to register an application with your Azure AD tenant and assign to the application a role in your Azure subscription. 
 [Confirm you have sufficient permissions](https://learn.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal), 
 or work with your administrator to create a service principal. 
-You will use this service principal to give your Function App an identity with the correct permissions to be able to call the MCfS API. 
+You will use this service principal to give your Function App an identity with the correct permissions to be able to access the MCfS API. 
 If you do have permissions, then go to your Azure Active Directory and click on `App registrations` and then on `+ New registration`. 
  
 In the new registration page, give a name for your app registration (e.g., `mcfs-client` in our case), and click on `Register`. 
@@ -55,7 +55,7 @@ You give your secret a name and when you want it to expire and then click on `Ad
 After creation, make sure you grab and save the client secret value, as you will not be able to see it again.
  
 You will use the client id and the client secret of this app registration you just created in the Function App code, 
-to assign your API this service principal identity when trying to communicate with the MCfS API. 
+to assign your Function App this service principal identity when trying to communicate with the MCfS API. 
 For the client id, you can go into the `Overview` blade of your app registration page and grab the value of the `Application (client) ID` property.
  
 After having created the app registration and client secret that will be used by our Function App sample code, 
@@ -105,7 +105,7 @@ Now let’s turn our attention to the sample Azure Function App code. Go ahead a
 and open it in Visual Studio.
  
 The `Azure.CfS.Library` project is the consumer library that acts like a sort of SDK for the MCfS API. 
-The `Fta.CfsSample.Api` project is the sample HTTP-Trigger based Azure Function App that uses the `Azure.CfS.Library` to call the MCfS API. 
+The `Fta.CfsSample.Api` project is the sample HTTP-Trigger based Azure Function App that uses the `Azure.CfS.Library` and acts as a client of the MCfS API. 
 To accomplish this, it needs:
 - To be associated with the service principal identity you created in Azure AD (“mcfs-client” in our example).
 - Be able to grab a `client-credentials` token from Azure AD and use it to call the MCfS API:
@@ -145,5 +145,5 @@ you will just have to do the following:
 With those values in place, you are now ready to run the Function App. After doing so, you can see the endpoints that the sample API exposes.
  
 You can now open a tool like Postman and start sending HTTP requests to your Function App. 
-Your API will eventually use the MCfS Library, which will use its identity to grab a `client-credentials` token
+Your sample code will eventually use the MCfS Library, which will use its identity to grab a `client-credentials` token
 from Azure AD and will use this token to call the MCfS API and get back the results.
