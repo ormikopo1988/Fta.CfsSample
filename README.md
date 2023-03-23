@@ -34,6 +34,8 @@ The HTTP response will be displayed at the bottom of the pane.
 
 # Develop a sample client that consumes the MCfS API
 
+## Prerequisites
+
 In this repo, we examine how you can build a simple HTTP-trigger based Azure Function App that calls the MCfS API using a custom MCfS consumer library. 
 All code samples are written in C# using NET 6.
 
@@ -100,8 +102,16 @@ The last step you need to do is go the [MCFS Home page](http://home.mcfs.microso
 navigate to the `Permissions` blade, then click on `+ Add`. 
 In the side panel that will appear you choose `Viewer` as the `Role` and in the `User, Group or Application` input 
 you search for your application registration (`mcfs-client`) and you click on `Save`.
- 
-Now let’s turn our attention to the sample Azure Function App code. Go ahead and download / clone the sample code from this GitHub repo 
+
+## Architecture
+
+Now let’s turn our attention to the sample Azure Function App code. 
+
+![Here, we are seeing the architecture for our Function App Client.](/MCfS-API-Client-Architecture.png)
+
+## Setup
+
+Go ahead and download / clone the sample code from this GitHub repo 
 and open it in Visual Studio.
  
 The `Azure.CfS.Library` project is the consumer library that acts like a sort of SDK for the MCfS API. 
