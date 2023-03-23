@@ -105,14 +105,13 @@ you search for your application registration (`mcfs-client`) and you click on `S
 
 ## Architecture
 
-Now let’s turn our attention to the sample Azure Function App code. 
-
 ![Here, we are seeing the architecture for our Function App Client.](/MCfS-API-Client-Architecture.png)
 
 ## Setup
 
-Go ahead and download / clone the sample code from this GitHub repo 
-and open it in Visual Studio.
+Now let’s turn our attention to the sample Azure Function App code. 
+
+Go ahead and download / clone the sample code from this GitHub repo and open it in Visual Studio.
  
 The `Azure.CfS.Library` project is the consumer library that acts like a sort of SDK for the MCfS API. 
 The `Fta.CfsSample.Api` project is the sample HTTP-Trigger based Azure Function App that uses the `Azure.CfS.Library` and acts as a client of the MCfS API. 
