@@ -156,3 +156,5 @@ With those values in place, you are now ready to run the Function App. After doi
 You can now open a tool like Postman and start sending HTTP requests to your Function App. 
 Your sample code will eventually use the MCfS Library, which will use its identity to grab a `client-credentials` token
 from Azure AD and will use this token to call the MCfS API and get back the results.
+
+[Video containing the use case demo](https://clipchamp.com/watch/OMk15KMKTPx)
